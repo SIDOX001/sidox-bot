@@ -1,0 +1,11 @@
+python-telegram-bot==21.6
+ccxt
+pandas
+numpy
+google-generativeai
+anthropic
+openai
+python-dotenv
+arabic-reshaper
+python-bidi
+flask
