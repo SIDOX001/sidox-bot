@@ -513,14 +513,27 @@ def main():
     print(ar("=" * 55))
     print(ar(" 🚀 SIDOX-TREAD: MULTI-KEY ENTERPRISE SYSTEM"))
     print(ar("=" * 55))
+    
     app = Application.builder().token(BOT_TOKEN).post_init(on_startup).build()
     app.add_handler(CommandHandler("start",   start_command))
     app.add_handler(CommandHandler("top100",  scan_top100_command))
     app.add_handler(CommandHandler("status",  status_command))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_coin_request))
+    
     print(ar("[SYSTEME] ✅ في انتظار الأوامر..."))
-    app.run_polling(drop_pending_updates=True)
+    
+    # --- التعديل السحري لحل مشكلة Event Loop في Render ---
+    app.run_polling(drop_pending_updates=True, close_loop=False)
 
 if __name__ == "__main__":
-    keep_alive()  # <-- هذا السطر الجديد
-    main()
+    from keep_alive import keep_alive
+    keep_alive()  # إبقاء السيرفر مستيقظاً
+    
+    # إنشاء Event Loop يدوياً لحل مشكلة Python 3.14+
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass
