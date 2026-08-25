@@ -447,7 +447,8 @@ async def handle_coin_request(update: Update, context: ContextTypes.DEFAULT_TYPE
     print(ar(f"\n📩 طلب تحليل يدوي: {text}"))
 
     w = await update.message.reply_text(f"🔍 جاري تحليل {text}...\n⏳ انتظر...")
-        tech = get_technical_data(text)
+    
+    tech = get_technical_data(text)
     if not tech['success']:
         return await w.edit_text(f"❌ خطأ من المنصة لعملة {text}:\n<code>{tech.get('error')}</code>", parse_mode='HTML')
 
@@ -464,7 +465,6 @@ async def handle_coin_request(update: Update, context: ContextTypes.DEFAULT_TYPE
     if ai.get('signal') in ('LONG', 'SHORT') and ai.get('confidence', 0) >= MIN_CONFIDENCE:
         tid = register_trade(tech, ai)
         if tid: await update.message.reply_text(f"✅ تمت الإضافة للمتابعة\n🆔 <code>{tid}</code>", parse_mode='HTML')
-
 async def scan_top100_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not is_authorized(update.effective_chat.id): return
     w = await update.message.reply_text("⏳ جاري مسح السوق...\n🧠 سيتم تصفية أفضل 3 عملات للذكاء الاصطناعي.")
