@@ -80,7 +80,7 @@ BEST_GEMINI_MODEL = detect_gemini_model()
 print(ar(f"[SYSTEME] ✅ Gemini Model Selected: {BEST_GEMINI_MODEL}"))
 
 # ─── إعداد Binance و المتغيرات ───
-exchange = ccxt.bybit({'enableRateLimit': True})
+exchange = ccxt.mexc({'enableRateLimit': True})
 
 os.makedirs("trades", exist_ok=True)
 TRADES_FILE = "trades/trades_state.json"
