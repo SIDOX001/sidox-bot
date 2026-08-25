@@ -447,9 +447,9 @@ async def handle_coin_request(update: Update, context: ContextTypes.DEFAULT_TYPE
     print(ar(f"\n📩 طلب تحليل يدوي: {text}"))
 
     w = await update.message.reply_text(f"🔍 جاري تحليل {text}...\n⏳ انتظر...")
-    tech = get_technical_data(text)
+        tech = get_technical_data(text)
     if not tech['success']:
-        return await w.edit_text(f"❌ لم أجد العملة: {text}")
+        return await w.edit_text(f"❌ خطأ من المنصة لعملة {text}:\n<code>{tech.get('error')}</code>", parse_mode='HTML')
 
     await w.edit_text("✅ جلب البيانات تم\n🧠 جاري إرسالها للذكاء الاصطناعي...")
     
